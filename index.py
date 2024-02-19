@@ -35,4 +35,7 @@ def get_upload():
         return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Obtener el puerto asignado por Render o usar 8000 por defecto
+    port = int(os.environ.get('PORT', 8000))
+    # Asegurarse de que la aplicación escuche en todas las direcciones
+    app.run(host='0.0.0.0', port=port, debug=True)
