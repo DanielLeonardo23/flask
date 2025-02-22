@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import os
 import cloudinary
 import cloudinary.uploader
@@ -26,6 +26,12 @@ app = Flask(__name__)
 # Lista para almacenar los links de las imágenes subidas
 uploaded_images = []
 
+# Ruta principal que muestra el formulario para cargar imágenes
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+# Ruta para manejar la carga de imágenes
 @app.route('/upload', methods=['POST'])
 def upload():
     try:
@@ -54,6 +60,7 @@ def upload():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
+# Ruta para ver las imágenes subidas
 @app.route('/upload', methods=['GET'])
 def get_upload():
     try:
