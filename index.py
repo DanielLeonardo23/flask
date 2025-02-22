@@ -29,15 +29,18 @@ uploaded_images = []
 @app.route('/upload', methods=['POST'])
 def upload():
     try:
-        # Obtén la imagen de los datos recibidos
-        image_data = request.data
+        # Obtén la imagen de los datos recibidos a través de 'form-data'
+        if 'image' not in request.files:
+            return jsonify({'error': 'No se ha recibido una imagen'}), 400
+        
+        image_file = request.files['image']
 
-        # Si no se recibieron datos
-        if not image_data:
-            return jsonify({'error': 'No se han recibido datos'}), 400
+        # Si no se ha recibido un archivo
+        if image_file.filename == '':
+            return jsonify({'error': 'No se ha seleccionado un archivo'}), 400
 
         # Sube la imagen a Cloudinary
-        response = cloudinary.uploader.upload(image_data, 
+        response = cloudinary.uploader.upload(image_file, 
                                               resource_type="auto",  # Detecta automáticamente el tipo de archivo
                                               folder="uploads")  # Carpeta en Cloudinary para almacenar las imágenes
 
