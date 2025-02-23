@@ -2,8 +2,12 @@ from flask import Flask, request, jsonify
 import os
 import cloudinary
 import cloudinary.uploader
+from flask_cors import CORS  # Importa CORS
 
 app = Flask(__name__)
+
+# Configuración de CORS para permitir solicitudes de cualquier origen
+CORS(app, resources={r"/*": {"origins": "*"}})  # Permite solicitudes de cualquier origen
 
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
